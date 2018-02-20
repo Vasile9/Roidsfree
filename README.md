@@ -1,7 +1,7 @@
-SPECIFICHE: 
+SPECIFICHE:
 	- chiamata ad index.php:
 		- giocare(name="gioca")
-		- effettuare il logout(name="gioca")
+		- effettuare il logout(chiamata vuota e $_SESSION distrutto)
 		- modificare dati utente(name="modificaDati")
 	- requisiti di $_SESSION:
 		- indice "utente" contenente un vettore con informazioni dell'utente
@@ -28,4 +28,3 @@ SPECIFICHE:
 		- la pagina è completamente dipendente da un css per il suo funzionamento
 		- statistiche e modifica dati compaiono e scompaiono con Javascript
 		- ho utilizzato l'immagine cross.png per chiudere statistiche e modifica dati (da modificare)
-

@@ -1,36 +1,29 @@
 <html>
 	<head>
+		<script src="Chart.bundle.js"></script>
 	</head>
 	<body>
 		<script>
 			function mostraModificaDati(){document.getElementById("modificaDati").style.cssText="display:inline";}
 			function nascondiModificaDati(){document.getElementById("modificaDati").style.cssText="display:none";}
-			
-			function mostraStatistiche(){document.getElementById("statistiche").style.cssText="display:inline";}
+			function mostraStatistiche(){
+				document.getElementById("statistiche").style.cssText="display:block";
+				grafico.render();
+			}
 			function nascondiStatistiche(){document.getElementById("statistiche").style.cssText="display:none";}
 		</script>	
 		<?php
-			$_SESSION=[
-				"utente"=>[
-					"nickname"=>"Bovo",
-					"email"=>"nik@gmail.com",
-					"nome"=>"nicola",
-					"cognome"=>"bovolato",
-					"password"=>"boh",
-					"eta"=>"5",	
-					"sesso"=>"M",
-					"denaro"=>"100000"
-				],
-				"partite"=>[
-					"vinte"=>10,
-					"perse"=>5
-				]
-			];
+			if(isset($_SESSION["logout"])){
+				session_destroy();
+				header("Location: index.php");
+
+			}
 			if(isset($_SESSION["utente"])){
 				stampaHeader();
 				stampaPagina();
 				stampaFormModifica();
 				stampaStatistiche();
+				echo "";
 			}
 			else echo "<p>Non hai il permesso di accedere a quest'area</p>\n
 					<a href=\"index.php\">Torna alla pagina principale</a>\n";
@@ -74,21 +67,45 @@
 						<li><p>STATISTICHE</p></li>\n
 						<li><img src=\"images/cross.png\" onclick=\"nascondiStatistiche()\"/></li>\n
 					</ul>\n
-					<p>Partite vinte: ".$_SESSION["partite"]["vinte"]."</p>\n
-					<p>Partite perse: ".$_SESSION["partite"]["perse"]."</p>\n
-					<p>V/S: ".$_SESSION["partite"]["vinte"]/$_SESSION["partite"]["perse"]."</p>\n
+					<canvas id=\"graficoStatistiche\" width=\"100\" height=\"100\"></canvas>\n
 				</div>\n";
 			}
 			function stampaPagina(){
 				echo "<img src=\"images/logo.png\"/>\n
 					<form action=\"index.php\" method=\"POST\">\n
 						<input type=\"submit\" name=\"gioca\" value=\"Gioca\"></input>\n
-						<input type=\"submit\" name=\"logout\" value=\"Logout\"></input>\n
 					</form>\n
 					<button onclick=\"mostraModificaDati()\">MODIFICA DATI</button>\n
-					<button onclick=\"mostraStatistiche()\">STATISTICHE</button>\n";
+					<button onclick=\"mostraStatistiche()\">STATISTICHE</button>\n
+					<form action=\"paginaUtente.php\" method=\"POST\">\n
+						<input type=\"submit\" name=\"logout\" value=\"Logout\"></input>\n
+					</form>\n";
 			}
 
 		?>
+		<script>
+			var vinte=<?=$_SESSION["partite"]["vinte"]?>;
+			var perse=<?=$_SESSION["partite"]["perse"]?>;
+			var totale=vinte+perse;
+
+			var grafico=new Chart(document.getElementById("graficoStatistiche"),{
+				type: "pie"	,
+				data:{
+					labels:["Vittorie","Sconfitte"],
+					datasets:[{
+						label:"grafico",
+						backgroundColor:["Green","Red"],
+						data: [vinte,perse]
+					}]
+				},
+				options:{
+					title:{
+						display:true,
+						text: "partite totali: "+totale	
+					}
+				}
+			});
+
+		</script>
 	</body>
 </html>
