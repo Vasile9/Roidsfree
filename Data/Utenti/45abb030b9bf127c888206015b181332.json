@@ -1,0 +1,14 @@
+{
+    "nickname": "vasile98",
+    "email": "vasile7m@gmail.com",
+    "nome": "Vasile",
+    "cognome": "Morandini",
+    "password": "aac618e19e48fe59f4c440779ad0b8b6",
+    "eta": "2018-01-01",
+    "sesso": "M",
+    "denaro": 10000,
+    "partite": {
+        "vinte": 0,
+        "perse": 0
+    }
+}
